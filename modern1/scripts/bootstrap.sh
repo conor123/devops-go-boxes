@@ -47,9 +47,8 @@ T_RETVAL=${PIPESTATUS[0]}
 apt-get -y install docker.io unzip
 usermod -G docker ubuntu
 
-# Install Chef SDK
-wget https://packages.chef.io/files/current/chefdk/2.3.5/ubuntu/16.04/chefdk_2.3.5-1_amd64.deb
-dpkg -i chefdk_2.3.5-1_amd64.deb
+# Install Chef SDK (add -v 0.18.30) to specify a version, or else it will be latest stable
+curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk -c stable
 
 # Clean up box
 apt-get clean
