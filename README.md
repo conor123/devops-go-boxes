@@ -1,8 +1,8 @@
 # Devops Go Boxs
-* A selection of ubuntu boxes ready to go with a set of tools to suit your use case
-* clone and cd into a box of your choice
+The Devops tools you need on Vagrant!
+
 * Enter: 'vagrant up' to launch and configure your vm
-* Enter 'vagrant ssh' to access your box!
+* Enter: 'vagrant ssh' to access your box!
 
 # Boxes Available
 ## Modern 1 - Ubuntu 16.04 LTS
@@ -10,4 +10,7 @@
 * Terraform
 * AWS CLI
 * Docker
+* Chef DK
+* Git
+* NTP Date & Time Fix
 
