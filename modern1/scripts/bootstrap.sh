@@ -1,9 +1,20 @@
 #!/bin/bash
 
-# Set Up
+# Initialise Box
 set -x
-TERRAFORM_VERSION="0.10.5"
 apt-get update
+
+# Script Variables
+TERRAFORM_VERSION="0.10.5"
+
+# Fix date time server drift
+apt install ntp -y
+service ntp stop
+ntpd -gq
+service ntp start
+
+# Install git
+apt-get install git
 
 # Create ssh key
 [[ ! -f /home/ubuntu/.ssh/mykey ]] \
@@ -11,7 +22,7 @@ apt-get update
 && ssh-keygen -f /home/ubuntu/.ssh/mykey -N '' \
 && chown -R ubuntu:ubuntu /home/ubuntu/.ssh
 
-# install pip
+# Install pip
 pip install -U pip && pip3 install -U pip
 if [[ $? == 127 ]]; then
     wget -q https://bootstrap.pypa.io/get-pip.py
@@ -23,7 +34,7 @@ fi
 pip install -U awscli
 pip install -U awsebcli
 
-#terraform
+# Install Terraform
 T_VERSION=$(terraform -v | head -1 | cut -d ' ' -f 2 | tail -c +2)
 T_RETVAL=${PIPESTATUS[0]}
 
@@ -36,5 +47,9 @@ T_RETVAL=${PIPESTATUS[0]}
 apt-get -y install docker.io unzip
 usermod -G docker ubuntu
 
-# clean up
+# Install Chef SDK
+wget https://packages.chef.io/files/current/chefdk/2.3.5/ubuntu/16.04/chefdk_2.3.5-1_amd64.deb
+dpkg -i chefdk_2.3.5-1_amd64.deb
+
+# Clean up box
 apt-get clean

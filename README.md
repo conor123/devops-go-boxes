@@ -5,7 +5,7 @@
 * Enter 'vagrant ssh' to access your box!
 
 # Boxes Available
-## Modern 1
+## Modern 1 - Ubuntu 16.04 LTS
 ### Tools Included in this Box
 * Terraform
 * AWS CLI
