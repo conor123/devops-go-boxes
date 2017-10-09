@@ -1,0 +1,10 @@
+{
+  "chef": {
+    ":chef_server_url": "https://api.chef.io/organizations/name",
+    ":client_key_path": "/etc/chef/name.pem",
+    ":environment": "name",
+    ":provisioning_path": "/etc/chef",
+    ":validation_client_name": "name",
+    ":validation_key_path": ".chef/name.pem"
+  }
+}

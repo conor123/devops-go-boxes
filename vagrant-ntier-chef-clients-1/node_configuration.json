@@ -1,0 +1,64 @@
+{
+  "nodes": {
+    "app-server": {
+      ":ip-address": "192.168.10.1",
+      ":host": "host-application-server-1",
+      ":node": "application-server-1",
+      "ports": [
+        {
+          ":id": "ssh",
+          ":host": 2201,
+          ":guest": 22
+        },
+        {
+          ":id": "wls-listen",
+          ":host": 7709,
+          ":guest": 7709
+        }
+      ],
+      ":memory": 2048
+    },
+    "database-server": {
+      ":ip-address": "192.168.10.2",
+      ":host": "host-database-server-1",
+      ":node": "database-server-1",
+      "ports": [
+        {
+          ":id": "ssh",
+          ":host": 2202,
+          ":guest": 22
+        },
+        {
+          ":id": "xe-db",
+          ":host": 1529,
+          ":guest": 1529
+        },
+        {
+          ":id": "xe-listen",
+          ":host": 8380,
+          ":guest": 8380
+        }
+      ],
+      ":memory": 2048
+    },
+    "web-server": {
+
+      ":ip-address": "192.168.10.3",
+      ":host": "host-web-server-1",
+      ":node": "web-server-1",
+      "ports": [
+        {
+          ":id": "ssh",
+          ":host": 2203,
+          ":guest": 22
+        },
+        {
+          ":id": "apache",
+          ":host": 4756,
+          ":guest": 4756
+        }
+      ],
+      ":memory": 1024
+    }
+  }
+}

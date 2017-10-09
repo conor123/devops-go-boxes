@@ -1,0 +1,62 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.require_plugin "vagrant-omnibus"
+
+vm_config = (JSON.parse(File.read("vm_configuration.json")))['vms']
+node_config = (JSON.parse(File.read("node_configuration.json")))['nodes']
+chef_config = (JSON.parse(File.read("chef_configuration.json")))['chef']
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = node_config[':box']
+
+  config.omnibus.chef_version = :latest
+
+  # Configure nodes
+  node_config.each do |node|
+
+    node_name = node[0] # name of node
+    node_values = node[1] # content of node
+
+    config.vm.define node_name do |config|
+
+      # Configure port forwarding
+      ports = node_values['ports']
+
+      ports.each do |port|
+        config.vm.network :forwarded_port,
+          id: port[':id'],
+          host: port[':host'],
+          guest: port[':guest'],
+          auto_correct: true
+      end
+
+      config.vm.hostname = node_values[':node']
+
+      config.vm.network :private_network, ip: node_values[':ip-address']
+
+      # Optimise third party downloads
+      config.vm.synced_folder "#{ENV['HOME']}/Documents/git_repos/chef-artifacts", "/vagrant"
+
+      # Virtualbox machine configuration
+      config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--name", node_values[':node']]
+        vb.customize ["modifyvm", :id, "--memory", node_values[':memory']]
+      end
+
+      # Chef client configuration
+      config.vm.provision :chef_client do |chef|
+        chef.chef_server_url = chef_config[':chef_server_url']
+        chef.provisioning_path = chef_config[':provisioning_path']
+        chef.validation_client_name = chef_config[':validation_client_name']
+        chef.validation_key_path = chef_config[':validation_key_path']
+        chef.client_key_path = chef_config[':client_key_path']
+        chef.environment = chef_config[':environment']
+        chef.node_name = chef_config[':node_name']
+      end
+    end
+  end
+end

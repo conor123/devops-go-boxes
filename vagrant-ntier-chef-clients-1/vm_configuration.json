@@ -1,0 +1,5 @@
+{
+  "vms": {
+    ":box": "bento/centos-7.2"
+  }
+}
