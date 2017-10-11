@@ -1,7 +1,7 @@
 {
   "nodes": {
     "app-server": {
-      ":ip-address": "192.168.10.1",
+      ":ip-address": "192.168.10.11",
       ":host": "host-application-server-1",
       ":node": "application-server-1",
       "ports": [
@@ -19,7 +19,7 @@
       ":memory": 2048
     },
     "database-server": {
-      ":ip-address": "192.168.10.2",
+      ":ip-address": "192.168.10.12",
       ":host": "host-database-server-1",
       ":node": "database-server-1",
       "ports": [
@@ -43,7 +43,7 @@
     },
     "web-server": {
 
-      ":ip-address": "192.168.10.3",
+      ":ip-address": "192.168.10.13",
       ":host": "host-web-server-1",
       ":node": "web-server-1",
       "ports": [

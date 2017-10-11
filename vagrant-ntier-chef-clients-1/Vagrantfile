@@ -3,7 +3,9 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-Vagrant.require_plugin "vagrant-omnibus"
+unless Vagrant.has_plugin?("vagrant-omnibus")
+  raise 'ERROR: vagrant-omnibus plugin is not installed!'
+end
 
 vm_config = (JSON.parse(File.read("vm_configuration.json")))['vms']
 node_config = (JSON.parse(File.read("node_configuration.json")))['nodes']
@@ -11,7 +13,7 @@ chef_config = (JSON.parse(File.read("chef_configuration.json")))['chef']
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = node_config[':box']
+  config.vm.box = vm_config[':box']
 
   config.omnibus.chef_version = :latest
 
@@ -39,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.network :private_network, ip: node_values[':ip-address']
 
       # Optimise third party downloads
-      config.vm.synced_folder "#{ENV['HOME']}/Documents/git_repos/chef-artifacts", "/vagrant"
+      # config.vm.synced_folder "#{ENV['HOME']}/Documents/git_repos/chef-artifacts", "/vagrant"
 
       # Virtualbox machine configuration
       config.vm.provider :virtualbox do |vb|
@@ -55,7 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         chef.validation_key_path = chef_config[':validation_key_path']
         chef.client_key_path = chef_config[':client_key_path']
         chef.environment = chef_config[':environment']
-        chef.node_name = chef_config[':node_name']
+        chef.node_name = node_values[':node']
       end
     end
   end
